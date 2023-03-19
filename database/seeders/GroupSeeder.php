@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Hash;
 
 use Illuminate\Support\Facades\DB;
 
-class UserSeeder extends Seeder
+class GroupSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -17,11 +17,13 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert([
+        DB::table('groups')->insert([
 
-            ['name' => "root",
-             'email' => "sample@gmail.com",
-             'password'=> Hash::make("382910"),
+            [
+                'name' => "よく似ているといわれる有名人",
+            ],
+            [
+                'name' => "似ている？有名人",
             ],
         ]);
     }

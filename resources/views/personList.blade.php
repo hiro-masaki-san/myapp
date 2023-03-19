@@ -4,32 +4,54 @@
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/personManage.css') }}">
 @endsection
-;
+
 @include('parts.header')
 
 @section('content')
-<div class="search_bg">
+<div class="title_bg">
    <p>一覧</p>
 </div>
-<div style="display:flex; justify-content: space-between">
-    <input id="n_search" type="search" placeholder="名前検索"/>
-    <a style="margin-top:8px; background-color: #0070C0; padding: 7px; 0; color: #FFFFFF; text-decoration: none;"href="/add">追加</a>
+
+<div class="search_bg">
+  <form action="/search" method="POST">
+    @csrf
+    <input name="sName" style="padding-bottom:0px; "inputmode="search" placeholder="名前検索"
+     value="{{isset($request) ? $request->sName : ''}}"/>
+    <a style="margin: 0px; font-size: 10px;" href="/list">検索条件のクリア<p/>
+  </form>
+  <a class="add_btn" href="/add">追加</a>
 </div>
-<p>・グループ1</p>
-<div class="grp_bg">
-   <div class="name_margin">
-    <div style="height:5px;"></div>
-    <div class="person" >
-      <a href="/list"></a>
-      <p class="name_font">名前1</p>
-      <p class="ruby_font">ruby1</p>
+
+
+<div hidden>
+  {{ $tmpGId = 0 }}
+</div>
+
+<form method="get" name="personEdit" action="/edit" >
+  @csrf
+  @foreach ($personList as $person)
+    @if($person->gId != $tmpGId)
+      @if($person->gId != 0)
+        </div>
+      @endif
+      <p>・{{ $person->gName}}</p>
+      <div hidden>
+        {{ $tmpGId = $person->gId }}
+      </div>
+      <div class="grp_bg">
+    @endif
+    <div class="name_margin">
+     <div style="height:5px;"></div>
+     <div class="person" >
+       <a href="/edit/{{ $person->pId }}"></a>
+       <p class="name_font">{{ $person->pName }}</p>
+       @if($person->pImg != "")
+           <img src="{{ asset('storage/' . $person->pImg) }}" width="250px" height="200px">
+       @endif
+       <input type="hidden" name="pId" value="{{ $person->pId }}" />
+     </div>
     </div>
     <hr>
-    <div class="person" >
-      <a href="/list"></a>
-      <p class="name_font">名前2</p>
-      <p class="ruby_font">ruby2</p>
-    </div>
-    <div style="height:10px;"></div>
-</div>
+  @endforeach
+</form>
 @endsection

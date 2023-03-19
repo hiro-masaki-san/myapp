@@ -2,7 +2,7 @@
 @section('title','人情報')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/personAdd.css') }}">
+<link rel="stylesheet" href="{{ asset('css/personInput.css') }}">
 @endsection
 
 @include('parts.header')
@@ -11,27 +11,49 @@
 <div class="search_bg">
    <p>登録</p>
 </div>
+
+@if ($errors->any())
+  <br>
+  <div class="error-message">
+    <ul>
+      @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
+      @endforeach
+    </ul>
+  </div>
+  <br>
+@endif
+
   <div class="whole_layout">
-    <p>グループ</p>
-     <input type="text" name="" list="group" autocomplete="off"/>
-     <datalist id="group">
-       <option value="グループ1">
-       <option value="グループ2">
-       <option value="グループ3">
-     </datalist>
-     <form method="post" action="/user/store" onsubmit="return false;">
-       @csrf
-       <p>名前</p>
-       <input type="text" name="" list="group" autocomplete="off"/>
-       <p>カナ</p>
-       <input type="text" name="" list="group" autocomplete="off"/>
-       <p>特徴</p>
-       <input type="text" name="" list="group" autocomplete="off"/>
-       <p>メモ</p>
-       <input type="text" name="" list="group" autocomplete="off"/>
-       <div style="display:flex; justify-content: space-between; margin-top:10px">
-         <a style="margin-top:8px; width:45%; background-color: #0070C0; padding: 7px; 0; color: #FFFFFF; text-decoration: none;"href="/list">登録</a>
-         <a style="margin-top:8px; width:45%; background-color: #0070C0; padding: 7px; 0; color: #FFFFFF; text-decoration: none;"href="/list">戻る</a>
+     <form method="post" action="/store" enctype="multipart/form-data">
+       @csrf 
+       <p>■グループ</p>
+       <input type="text" name="gName" list="group" autocomplete="off" 
+        value="{{ old('gName') ? old('gName') : "" }}"/>
+       <datalist id="group">
+       @foreach ($groupList as $group)
+         <option value="{{ $group->name }}">
+       @endforeach
+       </datalist>
+     
+       <p>■名前</p>
+       <input type="text" name="pName" list="group" autocomplete="off" value="{{ old('pName') ? old('pName') : "" }}"/>
+
+       <p>■カナ</p>
+       <input type="text" name="pRuby" list="group" autocomplete="off" value="{{ old('pRuby') ? old('pRuby') : "" }}"/>
+       
+       <p>■特徴</p>
+       <input type="text" name="pCharacter" list="group" autocomplete="off" value="{{ old('pCharacter') ? old('pCharacter') : "" }}" />
+
+       <p>■メモ</p>
+       <input type="text" name="pMemo" list="group" autocomplete="off" value="{{ old('pMemo') ? old('pMemo') : "" }}" />
+       
+       <p>■写真</p>
+       <input type="file" name="pImg" >
+
+       <div class="button_field">
+         <input type="submit" class="exec_btn" value="登録">
+         <a class="back_btn" href="/list">戻る</a>
        </div>
      </form>
   </div>

@@ -18,7 +18,7 @@
                 </div>
                 <ul>
                    <li><a href="/list">人情報</a></li>
-                   <li><a href="/add">追加</a></li>
+                   <li><a href="/add">人追加</a></li>
                 </ul>
             </div>
         </div>
